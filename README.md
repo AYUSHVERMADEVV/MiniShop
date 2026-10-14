@@ -1,207 +1,235 @@
-# 🛍️ MiniShop - MERN Stack Inventory Management Dashboard
 
-MiniShop ek complete, modern aur responsive **MERN Stack** (MongoDB Atlas + Express.js + React.js Vite + Node.js) application hai jisse aap apne shop ya store ki inventory aur stock ko asaani se manage kar sakte hain.
+# 🛍️ MiniShop — MERN Stack Inventory Management System
 
-Isme **Purple & White** premium dashboard theme, sidebar navigation, real-time calculations, low-stock alerts, aur full CRUD (Create, Read, Update, Delete) functionality di gayi hai.
+MiniShop is a modern, responsive inventory management dashboard built with the MERN stack. It helps shop owners manage products, track stock, maintain purchase and selling prices, and calculate potential profit.
 
----
+The project uses MongoDB Atlas for cloud database storage, Express.js and Node.js for the backend API, and React with Vite for the frontend.
 
-## 🌟 Key Features
+## ✨ Features
 
-1. **Add Products**: Product Name, Category, Purchase Price, Selling Price, aur Stock Quantity ke saath naya item add karein.
-2. **Clean & Responsive Table**: Sabhi products ek well-formatted table me show hote hain with currency formatting (₹ INR).
-3. **Edit Existing Products**: Kisi bhi product ka data (naam, category, price, quantity) modal ke through update karein.
-4. **Delete with Confirmation Dialog**: Product delete karne se pehle safety confirmation popup aata hai taaki accidentally data delete na ho.
-5. **Real-time Profit Calculation**:
-   - $\text{Profit per Unit} = \text{Selling Price} - \text{Purchase Price}$
-   - Dynamic profit margin percentage calculator modal me live dikhta hai.
-6. **Search & Category Filters**: Product name se instant live search aur category filter (Electronics, Groceries, Clothing, etc.).
-7. **5 Dashboard Summary Cards**:
-   - Total Products (Total unique SKUs)
-   - Total Stock Units (Total warehouse quantity)
-   - Low-Stock Products (Items with stock $\le 5$)
-   - Total Stock Purchase Value (Total invested capital)
-   - Expected Stock Profit (Projected earnings)
-8. **Low-Stock Alert Badge**: Jab kisi product ki quantity **5 ya usse kam** hoti hai, tab automatic red warning badge highlight hota hai.
-9. **MongoDB Atlas Status Indicator**: Real-time indicator jo batata hai ki database connected hai ya nahi.
+- **Product Management (CRUD):** Add, view, edit, and delete products.
+- **Product Details:** Store product name, category, purchase price, selling price, and stock quantity.
+- **Profit Calculation:** Calculate profit per unit using selling price minus purchase price.
+- **Dashboard Statistics:** Display product count, total stock units, stock purchase value, and projected stock profit.
+- **Low-Stock Alerts:** Highlight products with a quantity of 5 or fewer.
+- **Search and Filtering:** Find products by name or filter them by category.
+- **Responsive Interface:** Purple-and-white dashboard designed for desktop and smaller screens.
+- **Cloud Database:** Store inventory records in MongoDB Atlas.
+- **Environment Variables:** Keep database credentials outside the application source code.
 
----
+> Note: Dashboard statistics, filters, database status indicators, and automated tests should be described as implemented only after verifying them in the project.
 
-## 🛠️ Tech Stack
+## 🧰 Tech Stack
 
-- **Frontend**: React.js 18 + Vite, Lucide Icons, Modern CSS3 (CSS Variables, Flexbox, CSS Grid)
-- **Backend**: Node.js + Express.js (ES Modules)
-- **Database**: MongoDB Atlas via Mongoose ODM
-- **Environment**: Dotenv for secure credentials handling
-- **Dev Tools**: Concurrently, Nodemon
-
----
+| Layer | Technology |
+|---|---|
+| Frontend | React.js, Vite, CSS3 |
+| Icons | Lucide React |
+| Backend | Node.js, Express.js |
+| Database | MongoDB Atlas |
+| ODM | Mongoose |
+| Configuration | dotenv |
+| Development | Nodemon |
 
 ## 📁 Project Structure
 
 ```text
-MINISHOP/
-├── package.json              # Root scripts (run client & server together)
-├── README.md                 # Project documentation & setup guide
-├── .gitignore                # Git ignore for node_modules and .env
+MiniShop/
+├── package.json
+├── README.md
+├── .gitignore
 ├── server/
-│   ├── .env                  # Database URI & Port (Excluded from git)
-│   ├── .env.example          # Template for environment variables
-│   ├── package.json          # Backend dependencies (Express, Mongoose, etc.)
-│   ├── test-schema.js        # Mongoose schema & calculation test suite
-│   ├── test-api.js           # Express controller validation tests
+│   ├── .env
+│   ├── .env.example
+│   ├── package.json
 │   └── src/
 │       ├── config/
-│       │   └── db.js         # Mongoose connection & status helpers
+│       │   └── db.js
 │       ├── models/
-│       │   └── Product.js    # Mongoose schema, validations & virtuals
+│       │   └── Product.js
 │       ├── controllers/
-│       │   └── productController.js # REST API handlers
+│       │   └── productController.js
 │       ├── routes/
-│       │   └── productRoutes.js     # Express routes
-│       └── index.js          # Express server entry point
+│       │   └── productRoutes.js
+│       └── index.js
 └── client/
-    ├── package.json          # Frontend dependencies (React, Vite, Lucide)
-    ├── vite.config.js        # Vite config with backend API proxy
-    ├── index.html            # Main HTML with Plus Jakarta Sans font
+    ├── package.json
+    ├── vite.config.js
+    ├── index.html
     └── src/
         ├── api/
-        │   └── productApi.js # Fetch API calls for all endpoints
+        │   └── productApi.js
         ├── components/
-        │   ├── Sidebar.jsx   # Purple sidebar with DB status & nav
-        │   ├── Header.jsx    # Top header with date & quick actions
-        │   ├── StatCard.jsx  # Summary metrics cards
-        │   ├── FilterBar.jsx # Search, category, sort & low-stock filter
-        │   ├── ProductTable.jsx # Responsive table with profit & badges
-        │   ├── ProductModal.jsx # Add & Edit modal with live profit calculator
-        │   ├── DeleteConfirmModal.jsx # Delete confirmation popup
-        │   ├── DbAlertBanner.jsx # Helpful Atlas setup helper banner
-        │   └── Toast.jsx     # Success / error notification toasts
-        ├── App.jsx           # Main state management
-        ├── App.css           # Premium purple/white dashboard CSS
-        ├── index.css         # Reset & global design variables
-        └── main.jsx          # React DOM entry point
+        ├── App.jsx
+        ├── App.css
+        ├── index.css
+        └── main.jsx
 ```
 
----
+The structure above is a reference. Keep only files and folders that actually exist in your project.
 
-## ⚡ Quick Start for Windows (Hinglish Guide)
+## ⚙️ Prerequisites
 
-### 1. Prerequisites Check
-Apne Windows PowerShell ya Command Prompt me check karein ki **Node.js** installed hai:
+Install the following before running MiniShop:
+
+- [Node.js](https://nodejs.org/) — preferably an active LTS version.
+- npm — included with Node.js.
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account or another accessible MongoDB database.
+- A code editor such as Visual Studio Code or Antigravity.
+
+Check your Node.js and npm installations:
+
 ```powershell
 node -v
 npm -v
 ```
-*(Node.js v18+ recommended hai).*
 
----
+## 🚀 Installation and Setup
 
-### 2. Dependencies Install Karein
-Aap root folder se ek single command se sabhi dependencies install kar sakte hain:
-```powershell
+### 1. Clone or open the project
+
+If the project is already on your computer, open its root directory in your terminal.
+
+Otherwise, clone your repository:
+
+```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd MiniShop
+```
+
+Replace the repository URL with your actual GitHub repository URL.
+
+### 2. Install dependencies
+
+If the root `package.json` defines an `install:all` script:
+
+```bash
 npm run install:all
 ```
-*Ya phir alag-alag install karein:*
-```powershell
-# Root dependencies
-npm install
 
-# Backend dependencies
+Otherwise, install dependencies separately:
+
+```bash
+npm install
+```
+
+Then install the backend and frontend dependencies:
+
+```bash
 cd server
 npm install
-cd ..
-
-# Frontend dependencies
-cd client
+cd ../client
 npm install
 cd ..
 ```
 
----
+### 3. Configure MongoDB Atlas
 
-### 3. MongoDB Atlas Setup (Free Cluster)
+1. Sign in to [MongoDB Atlas](https://cloud.mongodb.com/).
+2. Open your project and select your cluster.
+3. Under **Database Access**, create a database user with an appropriate password and permissions.
+4. Under **Network Access**, allow your current IP address.
+5. Select **Connect → Drivers → Node.js**.
+6. Copy the connection string and replace its credential placeholders locally.
 
-1. **MongoDB Atlas Account**: [cloud.mongodb.com](https://cloud.mongodb.com) par free account banayein aur free **M0 Cluster** create karein.
-2. **Database User Create Karein**:
-   - Atlas dashboard me **Security** > **Database Access** par jayein.
-   - **Add New Database User** par click karein.
-   - Username (e.g. `admin`) aur strong Password (e.g. `MyShopPass123`) set karein.
-   - Built-in Role me **Read and write to any database** select karein.
-3. **Network Access (IP Whitelist)**:
-   - **Security** > **Network Access** par jayein.
-   - **Add IP Address** click karein aur **Allow Access from Anywhere** (`0.0.0.0/0`) select karein.
-4. **Connection String Copy Karein**:
-   - **Clusters** tab me **Connect** button click karein.
-   - **Drivers** (Node.js) choose karein.
-   - Connection string copy karein:
-     ```text
-     mongodb+srv://<username>:<password>@cluster0.abcde.mongodb.net/?retryWrites=true&w=majority
-     ```
-5. **`server/.env` File Update Karein**:
-   - `server/.env` file open karein.
-   - `<username>` aur `<password>` ko apne actual credentials se replace karein aur database ka naam `minishop` daalein:
-     ```env
-     PORT=5000
-     MONGODB_URI=mongodb+srv://admin:MyShopPass123@cluster0.abcde.mongodb.net/minishop?retryWrites=true&w=majority
-     ```
+Avoid allowing access from every IP address unless you specifically need it for temporary testing. Never commit database credentials to GitHub.
 
-> 🔒 **Security Note**: `server/.env` file `.gitignore` me added hai, isliye aapke database credentials kabhi bhi Git me leak nahi honge.
+### 4. Configure environment variables
 
----
+Create a file named `.env` inside the `server` directory.
 
-### 4. Application Run Karein
+Add the following configuration:
 
-Aap frontend aur backend dono ko ek saath root folder se start kar sakte hain:
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER_HOST>/minishop?retryWrites=true&w=majority
+```
 
-```powershell
+Replace the placeholders with your actual database username, password, and cluster hostname. URL-encode special characters in the password when necessary.
+
+Create a `server/.env.example` file containing placeholders only:
+
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER_HOST>/minishop?retryWrites=true&w=majority
+```
+
+Make sure `.env` is included in `.gitignore`. Never put real credentials in `.env.example`, screenshots, README files, or public repositories.
+
+### 5. Start the application
+
+If your root `package.json` has a configured `dev` script that starts both applications:
+
+```bash
 npm run dev
 ```
 
-Ya phir 2 alag terminal windows me run karein:
+Otherwise, open two terminal windows.
 
-**Terminal 1 (Backend Server):**
-```powershell
+**Terminal 1 — Backend**
+
+```bash
 cd server
 npm run dev
 ```
-Backend chalega: `http://localhost:5000`
 
-**Terminal 2 (Frontend Client):**
-```powershell
+**Terminal 2 — Frontend**
+
+```bash
 cd client
 npm run dev
 ```
-Frontend chalega: `http://localhost:5173`
 
-Browser me open karein: **[http://localhost:5173](http://localhost:5173)** 🚀
+Open the local frontend URL printed by Vite in your terminal. It is commonly:
 
----
+http://localhost:5173
+
+The backend is configured to use port `5000` unless changed in the environment variables.
 
 ## 📡 REST API Documentation
 
-Base URL: `http://localhost:5000`
+Base URL:
 
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/health` | Server uptime aur MongoDB connection status check karta hai |
-| `GET` | `/api/products` | Sabhi products fetch karta hai (search, category filter, sort, low-stock filter ke saath) aur overall summary statistics deta hai |
-| `GET` | `/api/products/:id` | Single product ki details fetch karta hai |
-| `POST` | `/api/products` | Naya product inventory me add karta hai |
-| `PUT` | `/api/products/:id` | Existing product ki details update karta hai |
-| `DELETE`| `/api/products/:id` | Product ko permanently remove karta hai |
+```text
+http://localhost:5000
+```
 
-### Query Parameters for `GET /api/products`:
-- `search`: Case-insensitive product name search (`?search=wireless`)
-- `category`: Category filter (`?category=Electronics`)
-- `lowStock`: Low stock items filter (`?lowStock=true`)
-- `sortBy`: Field sort (`name`, `quantity`, `purchasePrice`, `sellingPrice`, `createdAt`)
-- `order`: `asc` ya `desc`
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/health` | Check server and database status |
+| GET | `/api/products` | Retrieve products |
+| GET | `/api/products/:id` | Retrieve a single product |
+| POST | `/api/products` | Add a product |
+| PUT | `/api/products/:id` | Update an existing product |
+| DELETE | `/api/products/:id` | Delete a product |
 
-### Example `POST /api/products` Request Body:
+These endpoints assume the backend implements the routes shown. Confirm them against the actual Express router before submitting.
+
+### Supported query parameters
+
+If implemented, the product-list endpoint can support:
+
+- `search` — search by product name.
+- `category` — filter by category.
+- `lowStock=true` — show low-stock products.
+- `sortBy` — select a supported sorting field.
+- `order=asc` or `order=desc` — choose sorting order.
+
+Example:
+
+```text
+GET /api/products?search=keyboard
+GET /api/products?category=Electronics
+GET /api/products?lowStock=true
+```
+
+### Example product request
+
+**POST** `/api/products`
+
 ```json
 {
-  "name": "Wireless Mechanical Keyboard",
+  "name": "Wireless Keyboard",
   "category": "Electronics",
   "purchasePrice": 2200,
   "sellingPrice": 3499,
@@ -209,73 +237,67 @@ Base URL: `http://localhost:5000`
 }
 ```
 
-### Example `POST /api/products` Success Response (201 Created):
-```json
-{
-  "success": true,
-  "message": "Product added successfully",
-  "data": {
-    "_id": "670c5e93f...",
-    "name": "Wireless Mechanical Keyboard",
-    "category": "Electronics",
-    "purchasePrice": 2200,
-    "sellingPrice": 3499,
-    "quantity": 15,
-    "profitPerUnit": 1299,
-    "isLowStock": false,
-    "totalPurchaseValue": 33000,
-    "totalSellingValue": 52485,
-    "createdAt": "2026-10-14T00:15:00.000Z",
-    "updatedAt": "2026-10-14T00:15:00.000Z"
-  }
-}
+The backend should validate the input and return the created product when the request succeeds.
+
+### Business calculations
+
+```text
+Profit per Unit = Selling Price - Purchase Price
+
+Total Purchase Value = Purchase Price × Quantity
+
+Total Selling Value = Selling Price × Quantity
+
+Low Stock = Quantity ≤ 5
 ```
 
----
+These calculations represent potential stock value and profit, not guaranteed realized earnings.
 
-## 🧪 Testing Steps
+## 🧪 Testing
 
-Hamne project ke liye automated test suite create kiya hai jo schema validation, profit calculations, low-stock threshold logic, aur error handling ko verify karta hai.
+Test the API using Thunder Client, Postman, or another HTTP client.
 
-Root directory se test run karne ke liye:
-```powershell
-npm run test:server
-```
+1. Check the health endpoint.
+2. Add a product using a POST request.
+3. Retrieve all products using GET.
+4. Update its price or quantity using PUT.
+5. Delete the product using DELETE.
+6. Confirm that the changes persist in MongoDB Atlas.
 
-Ya `server/` directory ke andar:
-```powershell
-cd server
-npm test
-```
+If automated test scripts are present, run the commands defined in the project's `package.json`. Do not assume a test command exists until you verify it.
 
-### Test Coverage:
-- ✅ Schema validation for required fields (`name`, `category`, `purchasePrice`, `sellingPrice`, `quantity`)
-- ✅ Rejection of negative numbers and non-integer quantities
-- ✅ Correct formula calculation: $\text{profitPerUnit} = \text{sellingPrice} - \text{purchasePrice}$
-- ✅ Correct threshold test: $\text{isLowStock} = \text{true}$ for quantity $\le 5$
-- ✅ Correct calculation for $\text{totalPurchaseValue} = \text{purchasePrice} \times \text{quantity}$
-- ✅ Serialization test: Virtual fields auto-present in JSON responses
-- ✅ Controller error responses (503 on database disconnect, 400 on malformed ObjectIds)
+## 🛠️ Troubleshooting
 
----
+**MongoDB connection fails**
+- Verify the connection string in `server/.env`.
+- Check the database username and password.
+- Confirm that your current IP address is permitted in Atlas Network Access.
+- Check that the cluster is available and the server loads environment variables.
 
-## 💡 Troubleshooting (Aam Samasyaein)
+**Port already in use**
 
-1. **Port 5000 Already in Use (`EADDRINUSE`)**:
-   Agar port 5000 par koi aur process chal raha hai, toh PowerShell me use check aur stop karein:
-   ```powershell
-   Get-Process -Id (Get-NetTCPConnection -LocalPort 5000).OwningProcess | Stop-Process -Force
-   ```
-   Ya phir `server/.env` me `PORT=5001` set kar lein.
+Change the `PORT` value in `server/.env` to another available port, then restart the backend.
 
-2. **MongoDB Atlas Disconnected Error (Status 503)**:
-   - Check karein ki `server/.env` me valid URI dali hai ya nahi.
-   - Check karein ki password me `<` ya `>` brackets remove kar diye hain.
-   - Atlas **Network Access** me `0.0.0.0/0` allowed hai ya nahi.
+**Frontend cannot load products**
+- Confirm that the backend is running.
+- Check the browser console and terminal for errors.
+- Verify the API base URL and Vite proxy configuration.
+- Check that the frontend and backend use matching endpoint paths.
 
----
+**Dependencies fail to install**
 
-## 📄 License
-ISC / MIT - MiniShop Inventory System
-#   M i n i S h o p  
- 
+Verify your Node.js version, internet connection, and the relevant `package.json` files.
+
+## 🔐 Security
+
+- Keep `.env` out of version control.
+- Use a dedicated MongoDB database user with appropriate permissions.
+- Restrict Atlas network access to trusted IP addresses where practical.
+- Validate and sanitize incoming API data.
+- Never publish database passwords or other secrets in source code.
+
+## 🎯 Project Objective
+
+MiniShop demonstrates how to build a full-stack CRUD application using MongoDB, Express.js, React.js, and Node.js. It provides practical experience with REST APIs, database integration, product management, frontend-backend communication, and environment configuration.
+
+
