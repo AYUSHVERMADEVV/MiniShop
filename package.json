@@ -3,15 +3,31 @@
   "version": "1.0.0",
   "description": "MiniShop - MERN Stack Inventory Management Dashboard",
   "private": true,
+  "type": "module",
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
-    "server": "npm run dev --prefix server",
-    "client": "npm run dev --prefix client",
-    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,cyan\" \"npm run server\" \"npm run client\"",
-    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
-    "build:client": "npm run build --prefix client",
-    "test:server": "npm test --prefix server"
+    "dev": "node server/src/index.js",
+    "build": "npm run build --workspace=client",
+    "start": "node server/src/index.js",
+    "server": "npm run dev --workspace=server",
+    "client": "npm run dev --workspace=client",
+    "build:client": "npm run build --workspace=client",
+    "test:server": "npm run test --workspace=server",
+    "install:all": "npm install",
+    "lint": "node --check server/src/index.js server/src/config/db.js server/src/models/Product.js server/src/controllers/productController.js",
+    "test": "npm run test --workspace=server"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "vite": "^6.0.7"
   }
 }

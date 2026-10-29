@@ -1,0 +1,8 @@
+{
+  "name": "MiniShop - Inventory Management Dashboard",
+  "description": "MiniShop inventory management dashboard for tracking products, stock levels, valuations, and profit margins.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

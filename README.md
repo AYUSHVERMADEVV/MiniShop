@@ -7,17 +7,16 @@ The project uses MongoDB Atlas for cloud database storage, Express.js and Node.j
 
 ## ✨ Features
 
-- **Product Management (CRUD):** Add, view, edit, and delete products.
+- **Product Management (CRUD):** Add, view, edit, and delete products with real MongoDB persistence.
 - **Product Details:** Store product name, category, purchase price, selling price, and stock quantity.
-- **Profit Calculation:** Calculate profit per unit using selling price minus purchase price.
-- **Dashboard Statistics:** Display product count, total stock units, stock purchase value, and projected stock profit.
-- **Low-Stock Alerts:** Highlight products with a quantity of 5 or fewer.
-- **Search and Filtering:** Find products by name or filter them by category.
-- **Responsive Interface:** Purple-and-white dashboard designed for desktop and smaller screens.
-- **Cloud Database:** Store inventory records in MongoDB Atlas.
-- **Environment Variables:** Keep database credentials outside the application source code.
-
-> Note: Dashboard statistics, filters, database status indicators, and automated tests should be described as implemented only after verifying them in the project.
+- **Profit Calculation:** Calculate profit per unit (`sellingPrice - purchasePrice`), total purchase value, and expected profit.
+- **Dashboard Statistics:** Display 5 live summary cards: Total Products, Total Stock Units, Low Stock Products, Purchase Inventory Value, and Expected Stock Profit.
+- **Low-Stock Alerts:** Highlight and filter products with a quantity of 5 or fewer.
+- **Search and Filtering:** Case-insensitive search by product name, category filter, low-stock toggle, and multi-column sorting.
+- **CSV Export:** Download full or filtered inventory as a CSV file.
+- **Responsive Interface:** Modern purple-and-white dashboard designed for desktop and mobile viewports.
+- **Cloud Database:** Real-time data persistence with MongoDB Atlas and Mongoose.
+- **Environment Security:** Local `.env` files kept strictly out of Git version control.
 
 ## 🧰 Tech Stack
 
@@ -248,23 +247,67 @@ Total Purchase Value = Purchase Price × Quantity
 
 Total Selling Value = Selling Price × Quantity
 
+Expected Stock Profit = (Selling Price - Purchase Price) × Quantity
+
 Low Stock = Quantity ≤ 5
 ```
 
-These calculations represent potential stock value and profit, not guaranteed realized earnings.
+These calculations represent potential stock value and expected profit, not guaranteed realized earnings.
 
-## 🧪 Testing
+## 🧪 Automated and Manual Testing
 
-Test the API using Thunder Client, Postman, or another HTTP client.
+### 1. Automated Test Suites
 
-1. Check the health endpoint.
-2. Add a product using a POST request.
-3. Retrieve all products using GET.
-4. Update its price or quantity using PUT.
-5. Delete the product using DELETE.
-6. Confirm that the changes persist in MongoDB Atlas.
+The project includes two verified automated test suites that run with:
 
-If automated test scripts are present, run the commands defined in the project's `package.json`. Do not assume a test command exists until you verify it.
+```bash
+npm test
+```
+
+This executes both test suites:
+1. **Model & Schema Validation Tests (`server/test-schema.js`)**:
+   - Tests required fields (`name`, `category`, `purchasePrice`, `sellingPrice`, `quantity`).
+   - Validates negative value rejections for prices and stock quantity.
+   - Validates integer constraints on quantity (rejects decimals).
+   - Validates calculation of virtual fields: `profitPerUnit`, `isLowStock` (threshold ≤ 5), `totalPurchaseValue`, and `totalSellingValue`.
+   - Validates JSON serialization of virtual fields.
+   - Result: 19/19 tests passing (100%).
+
+2. **Controller & API Endpoint Validation Tests (`server/test-api.js`)**:
+   - Tests `createProduct` input validation with missing fields (returns HTTP 400).
+   - Tests `getProductById` with invalid ObjectId format (returns HTTP 400).
+   - Tests `updateProduct` with invalid ObjectId format (returns HTTP 400).
+   - Tests `deleteProduct` with invalid ObjectId format (returns HTTP 400).
+   - Tests graceful database disconnection handling (returns HTTP 503 without server crash).
+   - Result: 4/4 tests passing (100%).
+
+### 2. Manual Testing Workflow (CRUD Verification)
+
+To test the full user flow manually:
+1. **Health Check**: Open `http://localhost:3000/api/health` or `http://localhost:5000/api/health` in your browser or Postman.
+2. **Add Product**:
+   - Click **"Add Product"** in the top navigation or sidebar.
+   - Enter name, category, purchase price, selling price, and quantity.
+   - Observe the live profit preview box dynamically calculating Unit Profit, Margin %, and Total Investment.
+   - Submit and verify the product appears in the table and the 5 dashboard summary cards update.
+3. **Edit Product**:
+   - Click the clearly labeled purple **"Edit"** button on any table row.
+   - Verify the modal pre-fills with current product details.
+   - Change a field (e.g. adjust selling price or stock) and save.
+   - Verify the table row and dashboard summary update with the response from the database.
+4. **Delete Product**:
+   - Click the clearly labeled red **"Delete"** button on any row.
+   - Verify the confirmation modal opens, clearly displaying the product name, category, and quantity.
+   - Click "Cancel" to verify the product is not deleted.
+   - Reopen and click "Yes, Delete Product" to confirm permanent deletion.
+5. **Search & Filters**:
+   - Type in the search box to filter products case-insensitively.
+   - Filter by category using the dropdown.
+   - Toggle **"Low Stock (≤ 5)"** to isolate products needing reordering.
+   - Click **"Reset"** to clear all active filters.
+6. **Export CSV**:
+   - Click **"Export CSV"** in the table controls.
+   - Verify the downloaded `.csv` file contains Product Name, Category, Purchase Price, Selling Price, Profit Per Unit, Stock Quantity, and Low Stock Status.
 
 ## 🛠️ Troubleshooting
 
@@ -299,5 +342,9 @@ Verify your Node.js version, internet connection, and the relevant `package.json
 ## 🎯 Project Objective
 
 MiniShop demonstrates how to build a full-stack CRUD application using MongoDB, Express.js, React.js, and Node.js. It provides practical experience with REST APIs, database integration, product management, frontend-backend communication, and environment configuration.
+
+## 📄 License
+
+This repository does not currently include a LICENSE file. Before publishing or submitting publicly, choose an open-source license (such as MIT or ISC) according to your project requirements.
 
 

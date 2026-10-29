@@ -64,11 +64,11 @@ export default function ProductTable({
             <tr>
               <th>Product Details</th>
               <th>Category</th>
-              <th className="text-right">Purchase Price</th>
-              <th className="text-right">Selling Price</th>
+              <th className="text-right">Purchase (₹)</th>
+              <th className="text-right">Selling (₹)</th>
               <th className="text-right">Profit / Unit</th>
-              <th className="text-center">Stock Quantity</th>
-              <th className="text-right">Total Stock Value</th>
+              <th className="text-center">Stock Units</th>
+              <th className="text-right">Total Value</th>
               <th className="text-center">Actions</th>
             </tr>
           </thead>

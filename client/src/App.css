@@ -760,25 +760,49 @@
   color: var(--text-muted);
 }
 
-/* Table Card */
+/* Table Card & Responsive Container */
 .table-card {
   background: var(--bg-surface);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-light);
   overflow: hidden;
+  position: relative;
 }
 
 .table-responsive {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #DDD6FE transparent;
+}
+
+/* Custom sleek purple scrollbar */
+.table-responsive::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: #F8F9FE;
+  border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #DDD6FE;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: #A78BFA;
 }
 
 .products-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.875rem;
+  font-size: 0.84rem;
 }
 
 .products-table thead {
@@ -787,11 +811,11 @@
 }
 
 .products-table th {
-  padding: 14px 20px;
-  font-size: 0.75rem;
+  padding: 12px 14px;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: var(--text-secondary);
   white-space: nowrap;
 }
@@ -801,12 +825,16 @@
   transition: var(--transition);
 }
 
+.products-table tbody tr:last-child {
+  border-bottom: none;
+}
+
 .products-table tbody tr:hover {
   background: #FAF9FE;
 }
 
 .products-table tbody tr.row-low-stock {
-  background: #FFFBFB;
+  background: #FFFDFD;
 }
 
 .products-table tbody tr.row-low-stock:hover {
@@ -814,7 +842,7 @@
 }
 
 .products-table td {
-  padding: 16px 20px;
+  padding: 12px 14px;
   vertical-align: middle;
 }
 
@@ -829,13 +857,14 @@
 .product-identity {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 0;
 }
 
 .product-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-md);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
   background: var(--primary-light);
   color: var(--primary);
   display: flex;
@@ -847,38 +876,41 @@
 .product-names {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .product-title {
   font-weight: 700;
   color: var(--text-main);
-  max-width: 220px;
+  max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 0.84rem;
 }
 
 .product-id {
-  font-size: 0.6875rem;
+  font-size: 0.65rem;
   color: var(--text-muted);
   font-family: monospace;
 }
 
 .category-pill {
   display: inline-block;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: var(--radius-full);
   background: var(--primary-soft);
   color: var(--primary-dark);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   white-space: nowrap;
 }
 
 .price-text {
   font-family: monospace;
-  font-size: 0.9375rem;
+  font-size: 0.85rem;
   color: var(--text-main);
+  white-space: nowrap;
 }
 
 .font-semibold {
@@ -894,11 +926,12 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: var(--radius-full);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
   font-family: monospace;
+  white-space: nowrap;
 }
 
 .profit-positive {
@@ -917,56 +950,60 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .quantity-number {
   font-weight: 800;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--text-main);
+  line-height: 1.2;
 }
 
 .low-stock-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
+  gap: 3px;
+  padding: 1px 6px;
   border-radius: var(--radius-full);
   background: var(--danger-bg);
   color: var(--danger);
-  font-size: 0.6875rem;
+  font-size: 0.65rem;
   font-weight: 700;
   border: 1px solid var(--danger-border);
-  animation: pulse 2.5s infinite;
+  white-space: nowrap;
 }
 
 .in-stock-badge {
-  font-size: 0.6875rem;
+  font-size: 0.65rem;
   color: var(--text-muted);
+  white-space: nowrap;
 }
 
 .action-buttons {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
+  white-space: nowrap;
 }
 
-/* Visible labeled Edit button */
+/* Compact, stylish labeled Edit button */
 .action-btn-edit {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 6px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 0.8125rem;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
   font-weight: 700;
   background: var(--primary-light);
   color: var(--primary);
-  border: 1.5px solid var(--primary-border);
+  border: 1.2px solid var(--primary-border);
   cursor: pointer;
   transition: var(--transition);
   white-space: nowrap;
+  line-height: 1;
 }
 
 .action-btn-edit:hover {
@@ -974,24 +1011,25 @@
   color: #FFFFFF;
   border-color: var(--primary);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 3px 8px rgba(124, 58, 237, 0.25);
 }
 
-/* Visible labeled Delete button */
+/* Compact, stylish labeled Delete button */
 .action-btn-delete {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 6px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 0.8125rem;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
   font-weight: 700;
   background: var(--danger-bg);
   color: var(--danger);
-  border: 1.5px solid var(--danger-border);
+  border: 1.2px solid var(--danger-border);
   cursor: pointer;
   transition: var(--transition);
   white-space: nowrap;
+  line-height: 1;
 }
 
 .action-btn-delete:hover {
@@ -999,7 +1037,7 @@
   color: #FFFFFF;
   border-color: var(--danger);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 3px 8px rgba(239, 68, 68, 0.25);
 }
 
 /* Empty State */

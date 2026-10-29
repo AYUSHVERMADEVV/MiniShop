@@ -62,6 +62,21 @@ export default function ProductModal({
     setErrors({});
   }, [initialData, isOpen]);
 
+  // Handle keyboard Escape to close modal
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && !isSubmitting) {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, isSubmitting, onClose]);
+
   if (!isOpen) return null;
 
   const handleChange = (e) => {
@@ -124,6 +139,7 @@ export default function ProductModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
     if (!validate()) return;
 
     onSubmit({

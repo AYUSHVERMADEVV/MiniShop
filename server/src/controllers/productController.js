@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import Product from '../models/Product.js';
-import { isDbConnected, getDbStateName } from '../config/db.js';
+import { connectDB, isDbConnected, getDbStateName } from '../config/db.js';
 
 // Helper to check DB connection before queries
 const ensureDbConnection = (res) => {
@@ -19,7 +19,11 @@ const ensureDbConnection = (res) => {
 // @desc    Health check & DB status
 // @route   GET /api/health
 export const getHealth = async (req, res) => {
-  const connected = isDbConnected();
+  let connected = isDbConnected();
+  if (!connected && process.env.MONGODB_URI && !process.env.MONGODB_URI.includes('<username>')) {
+    await connectDB();
+    connected = isDbConnected();
+  }
   const dbState = getDbStateName();
 
   res.status(200).json({
@@ -80,10 +84,14 @@ export const getProducts = async (req, res) => {
     const categorySet = new Set();
 
     for (const p of allProducts) {
-      totalStockQuantity += p.quantity;
-      if (p.quantity <= 5) lowStockProducts += 1;
-      totalStockPurchaseValue += p.purchasePrice * p.quantity;
-      totalStockSellingValue += p.sellingPrice * p.quantity;
+      const qty = Number(p.quantity) || 0;
+      const purchase = Number(p.purchasePrice) || 0;
+      const selling = Number(p.sellingPrice) || 0;
+
+      totalStockQuantity += qty;
+      if (qty <= 5) lowStockProducts += 1;
+      totalStockPurchaseValue += purchase * qty;
+      totalStockSellingValue += selling * qty;
       if (p.category) categorySet.add(p.category);
     }
 
@@ -117,17 +125,17 @@ export const getProducts = async (req, res) => {
 // @route   GET /api/products/:id
 export const getProductById = async (req, res) => {
   try {
-    if (!ensureDbConnection(res)) return;
-
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
         error: 'Invalid ID',
         message: `The provided product ID '${id}' is not a valid MongoDB ObjectId`,
       });
     }
+
+    if (!ensureDbConnection(res)) return;
 
     const product = await Product.findById(id);
 
@@ -144,7 +152,7 @@ export const getProductById = async (req, res) => {
       data: product,
     });
   } catch (error) {
-    console.error(`Error fetching product ${req.params.id}:`, error);
+    console.error(`Error fetching product ${req.params?.id}:`, error);
     res.status(500).json({
       success: false,
       error: 'Server Error',
@@ -157,9 +165,7 @@ export const getProductById = async (req, res) => {
 // @route   POST /api/products
 export const createProduct = async (req, res) => {
   try {
-    if (!ensureDbConnection(res)) return;
-
-    const { name, category, purchasePrice, sellingPrice, quantity } = req.body;
+    const { name, category, purchasePrice, sellingPrice, quantity } = req.body || {};
 
     // Validate required fields
     const missingFields = [];
@@ -206,6 +212,8 @@ export const createProduct = async (req, res) => {
       });
     }
 
+    if (!ensureDbConnection(res)) return;
+
     const product = await Product.create({
       name: name.trim(),
       category: category.trim(),
@@ -241,11 +249,9 @@ export const createProduct = async (req, res) => {
 // @route   PUT /api/products/:id
 export const updateProduct = async (req, res) => {
   try {
-    if (!ensureDbConnection(res)) return;
-
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
         error: 'Invalid ID',
@@ -253,7 +259,7 @@ export const updateProduct = async (req, res) => {
       });
     }
 
-    const { name, category, purchasePrice, sellingPrice, quantity } = req.body;
+    const { name, category, purchasePrice, sellingPrice, quantity } = req.body || {};
 
     // Validate provided values
     const updates = {};
@@ -316,6 +322,8 @@ export const updateProduct = async (req, res) => {
       updates.quantity = numQuantity;
     }
 
+    if (!ensureDbConnection(res)) return;
+
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
       { $set: updates },
@@ -336,7 +344,7 @@ export const updateProduct = async (req, res) => {
       data: updatedProduct,
     });
   } catch (error) {
-    console.error(`Error updating product ${req.params.id}:`, error);
+    console.error(`Error updating product ${req.params?.id}:`, error);
     if (error.name === 'ValidationError') {
       const messages = Object.values(error.errors).map((err) => err.message);
       return res.status(400).json({
@@ -357,17 +365,17 @@ export const updateProduct = async (req, res) => {
 // @route   DELETE /api/products/:id
 export const deleteProduct = async (req, res) => {
   try {
-    if (!ensureDbConnection(res)) return;
-
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
         error: 'Invalid ID',
         message: `The provided product ID '${id}' is not a valid MongoDB ObjectId`,
       });
     }
+
+    if (!ensureDbConnection(res)) return;
 
     const deletedProduct = await Product.findByIdAndDelete(id);
 
@@ -385,7 +393,7 @@ export const deleteProduct = async (req, res) => {
       data: { id: deletedProduct._id, name: deletedProduct.name },
     });
   } catch (error) {
-    console.error(`Error deleting product ${req.params.id}:`, error);
+    console.error(`Error deleting product ${req.params?.id}:`, error);
     res.status(500).json({
       success: false,
       error: 'Server Error',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AlertTriangle, Trash2, X } from 'lucide-react';
 
 export default function DeleteConfirmModal({
@@ -8,6 +8,21 @@ export default function DeleteConfirmModal({
   product = null,
   isDeleting = false,
 }) {
+  // Handle keyboard Escape to dismiss modal
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && !isDeleting) {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, isDeleting, onClose]);
+
   if (!isOpen || !product) return null;
 
   return (
